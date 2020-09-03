@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>JSON TO HTML</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/estatics/fonts/kan1.css">
+</head>
+<body>
+    
+
+
+    <div id="div_input" class="m-5">
+        <input type="text" id="input_url" class="form-control" placeholder="Enter url">
+        <button class="btn btn-success m-3" onclick="load()">Load</button>
+    </div>
+
+    <div>
+
+        <h4 class="bg-primary text-white text-center p-3 text-align-center" id="div_title"></h4>
+        <div style="height: 3rem;">.</div>
+
+       <div id="div_parent"></div>
+
+
+    </div>
+
+
+
+    <script>
+     function load()
+     {
+         var url=document.getElementById("input_url").value;
+         if(!url.length>0)
+         {
+            alert("enter url")
+         }
+         else
+         {
+            $.ajax(
+            {
+            url: url,
+            dataType: 'json',
+            error: function()
+            {
+                alert("Failed");
+            },
+            success:function(results)
+                {
+    
+                    $("#div_input").hide();
+                    var div_title=document.getElementById('div_title');
+                    div_title.innerHTML=results.QUIZ_TITLE;
+                    var span_qnumber=document.getElementById('span_qnumber');
+                    var parent_div = document.getElementById("div_parent");
+
+                    var qnumber=1;
+                    results.QUESTIONS_ARRAY.forEach(function(element) 
+                    {
+
+
+                        parent_div.innerHTML+='<div style="background: url(logo.jpg);  background-position: center;background-repeat:no-repeat;" class="shadow-sm m-3 card">'
+                        +'<h4 class="bold p-3">'+element.q+'</h4>'
+                        +'<div>'
+                        +'<h5 class="p-2 m-2">(A) '+element["1"]+'</h5>'
+                        +'<h5 class="p-2 m-2">(B) '+element["2"]+'</h5>'
+                        +'<h5 class="p-2 m-2">(C) '+element["3"]+'</h5>'
+                        +'<h5 class="p-2 m-2">(D) '+element["4"]+'</h5>'
+                        +'</div>';
+                        +'</div>';
+
+
+                    });
+                }  
+            }) 
+         }
+     }
+    </script>
+
+
+
+</body>
+</html>
